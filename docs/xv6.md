@@ -1,4 +1,4 @@
-# XV6-riscv
+# xv6-riscv
 
 > this doc will introduce some parts of xv6 operating system.
 
