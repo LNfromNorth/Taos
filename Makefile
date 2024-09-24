@@ -62,6 +62,7 @@ build/kernel/%.o: kernel/%.S
 
 # includes
 include scripts/firmware.mk
+include scripts/qemu.mk
 
 .PHONY: clean img 
 clean:
