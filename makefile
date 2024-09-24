@@ -1,3 +1,4 @@
+
 # dirs
 FS=./fs
 BUILD=./build
@@ -58,7 +59,11 @@ build/kernel/%.o: kernel/%.S
 	@echo "AS $@"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-.PHONY: clean img
+
+# includes
+include scripts/firmware.mk
+
+.PHONY: clean img 
 clean:
 	rm -rf build
 
