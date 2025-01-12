@@ -20,7 +20,7 @@ AR 		= $(CROSS_COMPILE)ar
 SIZE 	= $(CROSS_COMPILE)size
 
 # Define flags
-CFLAGS = -nostdlib -I $(INCLUDE)
+CFLAGS = -nostdlib -static -I $(INCLUDE)
 LDFLAGS = -T $(SCRIPTS)/link.ld
 
 # Kernel source file
@@ -34,15 +34,23 @@ KERNEL_AS_OBJS = $(patsubst kernel/%.S, build/kernel/%.o, $(KERNEL_AS_SRCS))
 # combine all objs
 OBJS = $(KERNEL_C_OBJS) $(KERNEL_AS_OBJS)
 
-TARGET = build/kernel.elf
+TARGET_ELF = build/kernel.elf
+TARGET_BIN = build/kernel.bin
+
+TARGET = $(TARGET_BIN) $(TARGET_ELF)
 
 # build kernel
 all: build_dir $(TARGET)
 
 # LD
-$(TARGET): $(OBJS)
-	@echo "LD $(TARGET)"
-	@$(LD) $(OBJS) $(LDFLAGS) -o $(TARGET)
+$(TARGET_ELF): $(OBJS)
+	@echo "LD $(TARGET_ELF)"
+	@$(LD) $(OBJS) $(LDFLAGS) -o $(TARGET_ELF)
+
+# BIN
+$(TARGET_BIN): $(TARGET_ELF)
+	@echo "COPY $(TARGET_BIN)"
+	@$(OBJCOPY) -O binary $(TARGET_ELF) $(TARGET_BIN)
 
 # make build dir
 build_dir:

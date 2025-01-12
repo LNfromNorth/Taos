@@ -15,7 +15,7 @@ SBIFLAG += CROSS_COMPILE=$(CROSS_COMPILE)
 SBIFLAG += FW_TEXT_START=$(FW_TEXT_START)
 
 # for fw jump mode
-FW_JUMP_ADDR ?= 0x80200000
+FW_JUMP_ADDR ?= 0x80400000
 # for fw payload mode
 FW_PAYLOAD_PATH=../u-boot/u-boot.bin
 
