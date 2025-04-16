@@ -1,27 +1,33 @@
 
 # dirs
-FS=./fs
-BUILD=./build
-KERNEL=./kernel
-SCRIPTS=./scripts
-INCLUDE=./include
+FS		:=./fs
+BUILD	:=./build
+KERNEL	:=./kernel
+SCRIPTS	:=./scripts
+INCLUDE	:=./include
 
 # flags
 CROSS_COMPILE=riscv64-unknown-linux-gnu-
 
 # tools using the cross-compiler
-CC		= $(CROSS_COMPILE)gcc
-CXX 	= $(CROSS_COMPILE)g++
-AS 		= $(CROSS_COMPILE)as
-LD 		= $(CROSS_COMPILE)ld
-OBJCOPY = $(CROSS_COMPILE)objcopy
-OBJDUMP = $(CROSS_COMPILE)objdump
-AR 		= $(CROSS_COMPILE)ar
-SIZE 	= $(CROSS_COMPILE)size
+CC		:= $(CROSS_COMPILE)gcc
+CXX 	:= $(CROSS_COMPILE)g++
+AS 		:= $(CROSS_COMPILE)as
+LD 		:= $(CROSS_COMPILE)ld
+OBJCOPY := $(CROSS_COMPILE)objcopy
+OBJDUMP := $(CROSS_COMPILE)objdump
+AR 		:= $(CROSS_COMPILE)ar
+SIZE 	:= $(CROSS_COMPILE)size
+
+#about machine
+ISA		:= rv64imafdc
+ABI		:= lp64
 
 # Define flags
-CFLAGS = -nostdlib -static -I $(INCLUDE)
-LDFLAGS = -T $(KERNEL)/link.ld
+CF := -march=$(ISA) -mabi=$(ABI) -mcmodel=medany -fno-builtin -ffunction-sections 
+CF += -fdata-sections -nostartfiles -nostdlib -nostdinc -static -Wall -g 
+CFLAGS := $(CF) -I $(INCLUDE)
+LDFLAGS := -nostdlib -static -T $(KERNEL)/link.ld
 
 # Kernel source file
 KERNEL_C_SRCS = $(wildcard kernel/*.c)

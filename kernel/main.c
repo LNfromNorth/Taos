@@ -1,20 +1,21 @@
-#include "sbi.h"
-#include "sbi_ecall_interface.h"
+#include "printk.h"
 
-#define SBI_PUTCHAR(__a0) SBI_ECALL_1(SBI_EXT_0_1_CONSOLE_PUTCHAR, __a0)
+#define TAOS_VERSION "Taos v0.1\n"
+#define TAOS_TITLE_0 "  _________   ____  _____\n"
+#define TAOS_TITLE_1 " /_  __/   | / __ \\/ ___/\n"
+#define TAOS_TITLE_2 "  / / / /| |/ / / /\\__ \\ \n"
+#define TAOS_TITLE_3 " / / / ___ / /_/ /___/ / \n"
+#define TAOS_TITLE_4 "/_/ /_/  |_\\____//____/  \n"
+                         
 
-void main() {
-    SBI_PUTCHAR('H');
-    SBI_PUTCHAR('e');
-    SBI_PUTCHAR('l');
-    SBI_PUTCHAR('l');
-    SBI_PUTCHAR('o');
-    SBI_PUTCHAR(' ');
-    SBI_PUTCHAR('W');
-    SBI_PUTCHAR('o');
-    SBI_PUTCHAR('r');
-    SBI_PUTCHAR('l');
-    SBI_PUTCHAR('d');
-    SBI_PUTCHAR('!');
-    while(1);
+int main() {
+    printk(TAOS_VERSION);
+    printk(TAOS_TITLE_0);
+    printk(TAOS_TITLE_1);
+    printk(TAOS_TITLE_2);
+    printk(TAOS_TITLE_3);
+    printk(TAOS_TITLE_4);
+    // memory init
+    // trap init
+    // fs init
 }

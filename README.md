@@ -7,3 +7,4 @@ Will try to support the Milk-V Duo and will do many test on it.
 ## Reference
 - Onix
 - xv6
+- ZJU os_lab

@@ -1,6 +1,8 @@
 #ifndef __TAOS_SBI_H__
 #define __TAOS_SBI_H__
 
+#include "sbi_ecall_interface.h"
+
 #define SBI_ECALL(__num, __a0, __a1, __a2)                          \
 ({                                                                  \
     register unsigned long a0 asm("a0") = (unsigned long)(__a0);   \
@@ -18,5 +20,7 @@
 #define SBI_ECALL_1(__num, __a0)                SBI_ECALL(__num, __a0, 0, 0)
 #define SBI_ECALL_2(__num, __a0, __a1)          SBI_ECALL(__num, __a0, __a1, 0)
 #define SBI_ECALL_3(__num, __a0, __a1, __a2)    SBI_ECALL(__num, __a0, __a1, __a2)
+
+#define SBI_PUTCHAR(__a0) SBI_ECALL_1(SBI_EXT_0_1_CONSOLE_PUTCHAR, __a0)
 
 #endif
