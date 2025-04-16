@@ -7,7 +7,7 @@ SCRIPTS=./scripts
 INCLUDE=./include
 
 # flags
-CROSS_COMPILE=riscv64-linux-gnu-
+CROSS_COMPILE=riscv64-unknown-linux-gnu-
 
 # tools using the cross-compiler
 CC		= $(CROSS_COMPILE)gcc
@@ -21,7 +21,7 @@ SIZE 	= $(CROSS_COMPILE)size
 
 # Define flags
 CFLAGS = -nostdlib -static -I $(INCLUDE)
-LDFLAGS = -T $(SCRIPTS)/link.ld
+LDFLAGS = -T $(KERNEL)/link.ld
 
 # Kernel source file
 KERNEL_C_SRCS = $(wildcard kernel/*.c)
