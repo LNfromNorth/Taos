@@ -21,11 +21,11 @@ QFLAGS_BIOS = -bios $(OPENSBI_JUMP)
 QFLAGS_BL = -bios $(OPENSBI_PAYLOAD)
 QFLAGS_BL += -device loader,file=./build/kernel.uimg,addr=0x80400000
 
-qemu: build/kernel.elf
+qemu: kernel
 	$(QEMU) $(QFLAGS) -kernel $(KERNEL_ELF)
 
-qemu_bios: build/kernel.elf firmware
+qemu_bios: kernel firmware
 	$(QEMU) $(QFLAGS) $(QFLAGS_BIOS) -kernel $(KERNEL_ELF)
 
-qemu_bl: build/kernel.elf firmware_u-boot
+qemu_bl: kernel firmware_u-boot
 	$(QEMU) $(QFLAGS) $(QFLAGS_BL) -kernel $(UBOOT_BIN)

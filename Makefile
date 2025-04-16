@@ -38,9 +38,14 @@ TARGET_ELF = build/kernel.elf
 TARGET_BIN = build/kernel.bin
 
 TARGET = $(TARGET_BIN) $(TARGET_ELF)
+export KTARGET := $(TARGET)
+
+.PHONY: clean img kernel
+
+all: kernel
 
 # build kernel
-all: build_dir $(TARGET)
+kernel: build_dir $(TARGET)
 
 # LD
 $(TARGET_ELF): $(OBJS)
@@ -72,7 +77,6 @@ build/kernel/%.o: kernel/%.S
 include scripts/firmware.mk
 include scripts/qemu.mk
 
-.PHONY: clean img 
 clean:
 	rm -rf build
 
