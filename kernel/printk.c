@@ -2,7 +2,7 @@
 #include "sbi.h"
 
 int putc(int c) {
-    SBI_PUTCHAR(c);
+    sbi_debug_console_write_byte((uint8_t)c);
     return (char)c;
 }
 

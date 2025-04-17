@@ -2,25 +2,19 @@
 #define __TAOS_SBI_H__
 
 #include "sbi_ecall_interface.h"
+#include "stdint.h"
 
-#define SBI_ECALL(__num, __a0, __a1, __a2)                          \
-({                                                                  \
-    register unsigned long a0 asm("a0") = (unsigned long)(__a0);   \
-    register unsigned long a1 asm("a1") = (unsigned long)(__a1);   \
-    register unsigned long a2 asm("a2") = (unsigned long)(__a2);   \
-    register unsigned long a7 asm("a7") = (unsigned long)(__num);  \
-    asm volatile("ecall"                                            \
-                    : "+r"(a0)                                      \
-                    : "r"(a1), "r"(a2), "r"(a7)                     \
-                    : "memory");                                    \
-    a0;                                                             \
-})
+struct sbiret {
+    uint64_t error;
+    uint64_t value;
+};
 
-#define SBI_ECALL_0(__num)                      SBI_ECALL(__num, 0, 0, 0)
-#define SBI_ECALL_1(__num, __a0)                SBI_ECALL(__num, __a0, 0, 0)
-#define SBI_ECALL_2(__num, __a0, __a1)          SBI_ECALL(__num, __a0, __a1, 0)
-#define SBI_ECALL_3(__num, __a0, __a1, __a2)    SBI_ECALL(__num, __a0, __a1, __a2)
+struct sbiret sbi_ecall(uint64_t eid, uint64_t fid,
+                        uint64_t arg0, uint64_t arg1, uint64_t arg2,
+                        uint64_t arg3, uint64_t arg4, uint64_t arg5);
 
-#define SBI_PUTCHAR(__a0) SBI_ECALL_1(SBI_EXT_0_1_CONSOLE_PUTCHAR, __a0)
+// struct sbiret sbi_set_timer(uint64_t stime_value);
+struct sbiret sbi_debug_console_write_byte(uint8_t byte);
+struct sbiret sbi_system_reset(uint32_t reset_type, uint32_t reset_reason);
 
 #endif

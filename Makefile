@@ -18,6 +18,7 @@ OBJCOPY := $(CROSS_COMPILE)objcopy
 OBJDUMP := $(CROSS_COMPILE)objdump
 AR 		:= $(CROSS_COMPILE)ar
 SIZE 	:= $(CROSS_COMPILE)size
+GDB 	:= $(CROSS_COMPILE)gdb
 
 #about machine
 ISA		:= rv64imafdc
@@ -28,6 +29,9 @@ CF := -march=$(ISA) -mabi=$(ABI) -mcmodel=medany -fno-builtin -ffunction-section
 CF += -fdata-sections -nostartfiles -nostdlib -nostdinc -static -Wall -g 
 CFLAGS := $(CF) -I $(INCLUDE)
 LDFLAGS := -nostdlib -static -T $(KERNEL)/link.ld
+
+# gdb script
+GDB_SCRIPT := $(SCRIPTS)/debug.gdb
 
 # Kernel source file
 KERNEL_C_SRCS = $(wildcard kernel/*.c)
@@ -42,11 +46,12 @@ OBJS = $(KERNEL_C_OBJS) $(KERNEL_AS_OBJS)
 
 TARGET_ELF = build/kernel.elf
 TARGET_BIN = build/kernel.bin
+TARGET_ASM = build/kernel.S
 
-TARGET = $(TARGET_BIN) $(TARGET_ELF)
+TARGET = $(TARGET_BIN) $(TARGET_ELF) $(TARGET_ASM)
 export KTARGET := $(TARGET)
 
-.PHONY: clean img kernel
+.PHONY: clean img kernel gdb
 
 all: kernel
 
@@ -60,8 +65,14 @@ $(TARGET_ELF): $(OBJS)
 
 # BIN
 $(TARGET_BIN): $(TARGET_ELF)
-	@echo "COPY $(TARGET_BIN)"
+	@echo "OBJCOPY $(TARGET_BIN)"
 	@$(OBJCOPY) -O binary $(TARGET_ELF) $(TARGET_BIN)
+
+# ASM
+$(TARGET_ASM): $(TARGET_ELF)
+	@echo "OBJDUMP $(TARGET_BIN)"
+	@$(OBJDUMP) -S $(TARGET_ELF) > $(TARGET_ASM)
+
 
 # make build dir
 build_dir:
@@ -82,6 +93,10 @@ build/kernel/%.o: kernel/%.S
 # includes
 include scripts/firmware.mk
 include scripts/qemu.mk
+
+debug: kernel
+	@echo "Starting debug"
+	$(GDB)  $(TARGET_ELF) -x $(GDB_SCRIPT)
 
 clean:
 	rm -rf build

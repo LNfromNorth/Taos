@@ -24,6 +24,9 @@ QFLAGS_BL += -device loader,file=./build/kernel.uimg,addr=0x80400000
 qemu: kernel
 	$(QEMU) $(QFLAGS) -kernel $(KERNEL_ELF)
 
+qemug: kernel
+	$(QEMU) $(QFLAGS) -s -S -kernel $(KERNEL_ELF)
+
 qemu_bios: kernel firmware
 	$(QEMU) $(QFLAGS) $(QFLAGS_BIOS) -kernel $(KERNEL_ELF)
 
