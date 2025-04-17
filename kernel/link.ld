@@ -2,37 +2,39 @@ OUTPUT_ARCH("riscv")
 OUTPUT_FORMAT("elf64-littleriscv")
 ENTRY(_start)
 
-PHDRS{
-    text PT_LOAD FLAGS(5);
-    data PT_LOAD FLAGS(6);
-    bss PT_LOAD FLAGS(6);
-}
+BASE_ADDR = 0x80400000;
 
 SECTIONS
 {
     /* text: test code section */
-    . = 0x80400000;
-    start = .;
+    . = BASE_ADDR;
+    _skerenl = .;
 
-    .text : {
-        stext = .;
-            *(.text.entry)
-            *(.text .text.*)
-            . = ALIGN(4K);
-            etext = .;
-    } :text
+    .text : ALIGN(0x1000) {
+        _stext = .;
+        *(.text.entry)
+        *(.text .text.*)
+        . = ALIGN(4K);
+        _etext = .;
+    }
 
-    .data : {
-        sdata = .;
+    .rodata : ALIGN(0x1000) {
+        _srodata = .;
+        *(.rodata .rodata.*)
+        _erodata = .;
+    }
+
+    .data : ALIGN(0x1000) {
+        _sdata = .;
         *(.data .data.*)
-        edata = .;
-    } :data
+        _edata = .;
+    }
 
-    .bss : {
-        sbss = .;
+    .bss : ALIGN(0x1000) {
+        _sbss = .;
         *(.bss .bss.*)
-        ebss = .;
-    } :bss
+        _ebss = .;
+    }
 
-    PROVIDE(end = .);
+    _ekernel = .;
 }

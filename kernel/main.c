@@ -1,5 +1,6 @@
 #include "printk.h"
 #include "panic.h"
+#include "defs.h"
 #include "sbi.h"
 
 #define TAOS_VERSION "Taos v0.1\n"
@@ -35,6 +36,7 @@ int main() {
 }
 
 int init() {
+    memory_init();
     return 0;    
 }
 

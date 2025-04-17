@@ -3,6 +3,7 @@
         "printk.h": "c",
         "sbi.h": "c",
         "ratio": "c",
-        "sbi_ecall_interface.h": "c"
+        "sbi_ecall_interface.h": "c",
+        "defs.h": "c"
     },
 }
