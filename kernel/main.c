@@ -1,4 +1,5 @@
 #include "printk.h"
+#include "panic.h"
 #include "sbi.h"
 
 #define TAOS_VERSION "Taos v0.1\n"
@@ -22,6 +23,7 @@ int main() {
     // sbi_message();
 
     init();
+    panic("test panic!");
     
     // shutdown
     sbi_system_reset(0, 0);
