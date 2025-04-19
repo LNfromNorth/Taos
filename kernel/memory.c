@@ -20,7 +20,6 @@ void* kalloc() {
             break;
         }
     }
-    printk("[DEBUG] get index %d\n", index);
     mmap[index] = 1;    // set mmap used
     return (void*)(uint64_t)(PHYMEM_START + (index << 12));
 }
@@ -35,7 +34,6 @@ void kfree(uint64_t addr) {
 
 // init mmap, set kernel and sbi space to 1, others to 0
 void mmap_init() {
-    printk("[DEBUG] end of kernel is %x\n", (uint64_t)_ekernel);
     int used_pages = PAGE_NUMS(((uint64_t)_ekernel - PHYMEM_START));
     int total_pages = PAGE_NUMS(PHYMEM_SIZE);
     int i = 0;
@@ -50,7 +48,7 @@ void mmap_init() {
 void memory_init() {
     // set bitmap for memory
     mmap_init();
-    printk("[DEBUG] finish mmap init!\n");
-    // set pages
+    printk("[INIT] finish mmap init\n");
+
 }
 

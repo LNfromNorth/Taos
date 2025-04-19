@@ -1,6 +1,6 @@
+#include "memory.h"
 #include "printk.h"
 #include "panic.h"
-#include "defs.h"
 #include "sbi.h"
 
 __attribute__ ((aligned(16))) char stack[4096];
@@ -26,20 +26,6 @@ int main() {
     // sbi_message();
 
     init();
-    uint64_t pages[10];
-    for(int i = 0; i < 10; i++) {
-        pages[i] = (uint64_t)kalloc();
-        printk("alloc %d page addr is %x\n", i, pages[i]);
-    }
-    for(int i = 9; i >= 0; i--) {
-        kfree(pages[i]);
-    }
-    printk("[DEBUG] pass kalloc and kfree func");
-    uint64_t page = (uint64_t)kalloc(); 
-    printk("alloc page addr is %x\n", page);
-    kfree(page);
-
-    printk("[DEBUG] test kalloc and kfree successfully!\n");
 
     panic("Kernel Init Panic!");
     // shutdown
@@ -53,12 +39,6 @@ int main() {
 
 int init() {
     memory_init();
+    page_init();
     return 0;    
 }
-
-// printk fix
-// void sbi_message() {
-//     struct sbiret sret = sbi_ecall(0x10, 0, 0, 0, 0, 0, 0, 0);
-//     // printk("SBI spec Version: %d.%d\n", sret.value >> 24, sret.value & 0xFFFFFF);
-//     printk("SBI spec Version: %d\n", sret.value);
-// }

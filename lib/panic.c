@@ -3,5 +3,6 @@
 
 void panic(char* message) {
     printk("[PANIC] system panic because: \n-> %s\n", message);
-    sbi_system_reset(0, 1);
+    // sbi_system_reset(0, 1);
+    while(1);
 }
