@@ -4,6 +4,7 @@
         "sbi.h": "c",
         "ratio": "c",
         "sbi_ecall_interface.h": "c",
-        "defs.h": "c"
+        "defs.h": "c",
+        "memory.h": "c"
     },
 }

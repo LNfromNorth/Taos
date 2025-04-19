@@ -3,6 +3,8 @@
 #include "defs.h"
 #include "sbi.h"
 
+__attribute__ ((aligned(16))) char stack[4096];
+
 #define TAOS_VERSION "Taos v0.1\n"
 #define TAOS_TITLE_0 "  _________   ____  _____\n"
 #define TAOS_TITLE_1 " /_  __/   | / __ \\/ ___/\n"
@@ -24,8 +26,22 @@ int main() {
     // sbi_message();
 
     init();
-    panic("test panic!");
-    
+    uint64_t pages[10];
+    for(int i = 0; i < 10; i++) {
+        pages[i] = (uint64_t)kalloc();
+        printk("alloc %d page addr is %x\n", i, pages[i]);
+    }
+    for(int i = 9; i >= 0; i--) {
+        kfree(pages[i]);
+    }
+    printk("[DEBUG] pass kalloc and kfree func");
+    uint64_t page = (uint64_t)kalloc(); 
+    printk("alloc page addr is %x\n", page);
+    kfree(page);
+
+    printk("[DEBUG] test kalloc and kfree successfully!\n");
+
+    panic("Kernel Init Panic!");
     // shutdown
     sbi_system_reset(0, 0);
 
