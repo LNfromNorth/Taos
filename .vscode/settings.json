@@ -5,6 +5,8 @@
         "ratio": "c",
         "sbi_ecall_interface.h": "c",
         "defs.h": "c",
-        "memory.h": "c"
+        "memory.h": "c",
+        "proc.h": "c",
+        "riscv.h": "c"
     },
 }

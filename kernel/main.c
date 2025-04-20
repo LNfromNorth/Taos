@@ -1,6 +1,7 @@
 #include "memory.h"
 #include "printk.h"
 #include "panic.h"
+#include "proc.h"
 #include "sbi.h"
 
 // __attribute__ ((aligned(16))) char stack[4096];
@@ -41,6 +42,6 @@ int init() {
     memory_init();
     page_init();
     page_on();
-    printk("[DEBUG] after paging return to init\n");
+    proc_init();
     return 0;    
 }

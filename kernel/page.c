@@ -4,6 +4,7 @@
 #include "panic.h"
 #include "printk.h"
 #include "riscv.h"
+#include "proc.h"
 
 // the kernel pagetable contain all physical memory space
 // 256M memory space only need one pagetable to map it
@@ -74,11 +75,12 @@ void page_init() {
     ret += page_map_make(kpagetable, SBI_START, SBI_START, (KERNEL_START - SBI_START), PTE_R | PTE_X);
 
     // kernel code
-    printk("[DEBUG] _etext = %x\n", (uint64_t)_etext);
     ret += page_map_make(kpagetable, KERNEL_START, KERNEL_START, ((uint64_t)_etext - KERNEL_START), PTE_R | PTE_X);
 
     // kernel data and other all
     ret += page_map_make(kpagetable, (uint64_t)_etext, (uint64_t)_etext, (MEMORY_TOP - (uint64_t)_etext), PTE_R | PTE_W);
+
+    ret += proc_stack_map(kpagetable);
 
     if(ret != 0)
         panic("page init error");

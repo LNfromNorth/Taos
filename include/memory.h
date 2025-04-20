@@ -86,6 +86,12 @@ typedef uint64_t pte_t;
 // max va
 #define MAXVA           (1L << (9 + 9 + 9 + 12 - 1))
 
+// trampoline page map va
+#define TRAMPOLINE (MAXVA - PAGE_SIZE)
+
+// map of proc stack space
+#define KSTACK(p) (TRAMPOLINE - ((p) + 1)* 2 * PAGE_SIZE)
+
 
 // memory
 void memory_init();
@@ -95,5 +101,7 @@ void kfree(uint64_t addr);
 // page
 void page_init();
 void page_on();
+int page_map_make(pagetable_t pt, uint64_t va, uint64_t pa, uint64_t size, int perm);
+
 
 #endif
