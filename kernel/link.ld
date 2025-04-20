@@ -15,7 +15,7 @@ SECTIONS
         *(.text.entry)
         *(.text .text.*)
         . = ALIGN(4K);
-        _etext = .;
+        PROVIDE(_etext = .);
     }
 
     .rodata : ALIGN(0x1000) {

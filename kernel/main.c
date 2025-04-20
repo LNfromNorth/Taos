@@ -40,5 +40,7 @@ int main() {
 int init() {
     memory_init();
     page_init();
+    page_on();
+    printk("[DEBUG] after paging return to init\n");
     return 0;    
 }

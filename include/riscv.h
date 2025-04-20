@@ -16,4 +16,12 @@
     asm volatile("csrw " #csr ", %0" : : "r"(__v) : "memory"); \
   })
 
+#define SATP_SV39     (8L << 60)
+#define MAKE_SATP(pagetable) (SATP_SV39 | (((uint64_t)pagetable) >> 12))
+
+// flush the TLB
+static inline void sfence_vma() {
+  asm volatile("sfence.vma zero, zero");
+}
+
 #endif

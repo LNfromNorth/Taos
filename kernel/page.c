@@ -3,6 +3,7 @@
 #include "memory.h"
 #include "panic.h"
 #include "printk.h"
+#include "riscv.h"
 
 // the kernel pagetable contain all physical memory space
 // 256M memory space only need one pagetable to map it
@@ -40,7 +41,7 @@ int page_map_make(pagetable_t pt, uint64_t va, uint64_t pa, uint64_t size, int p
         panic("page map error: size equal to 0");
 
     current_va = va;
-    pages_count = (size - PAGE_SIZE) / PAGE_SIZE;
+    pages_count = size / PAGE_SIZE;
     for(int i = 0; i < pages_count; i++) {
         pte = walk(pt, current_va, 1);
         if(pte == 0) return -1;
@@ -48,6 +49,7 @@ int page_map_make(pagetable_t pt, uint64_t va, uint64_t pa, uint64_t size, int p
             panic("page map error: remap same page");
         *pte = PA2PTE(pa) | perm | PTE_V;
         current_va += PAGE_SIZE;
+        pa += PAGE_SIZE;
     }
     return 0;
 }
@@ -58,11 +60,21 @@ void page_init() {
     memset(kpagetable, 0, PAGE_SIZE);
 
     int ret = 0;
+    
+    // UART
+    ret += page_map_make(kpagetable, UART0, UART0, PAGE_SIZE, PTE_R | PTE_W);
+
+    // VIRTIO
+    ret += page_map_make(kpagetable, VIRTIO0, VIRTIO0, PAGE_SIZE, PTE_R | PTE_W);
+
+    // PLIC
+    ret += page_map_make(kpagetable, PLIC, PLIC, PLIC_MMIO_SIZE, PTE_R | PTE_W);
 
     // SBI
     ret += page_map_make(kpagetable, SBI_START, SBI_START, (KERNEL_START - SBI_START), PTE_R | PTE_X);
 
     // kernel code
+    printk("[DEBUG] _etext = %x\n", (uint64_t)_etext);
     ret += page_map_make(kpagetable, KERNEL_START, KERNEL_START, ((uint64_t)_etext - KERNEL_START), PTE_R | PTE_X);
 
     // kernel data and other all
@@ -73,4 +85,11 @@ void page_init() {
 
     kernel_pagetable = kpagetable;
     printk("[INIT] finish kernel pages map\n");
+}
+
+void page_on() {
+    sfence_vma();
+    csr_write(satp, MAKE_SATP(kernel_pagetable));
+    printk("[INIT] finish kernel page on\n");
+    sfence_vma();
 }
