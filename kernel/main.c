@@ -3,7 +3,7 @@
 #include "panic.h"
 #include "sbi.h"
 
-__attribute__ ((aligned(16))) char stack[4096];
+// __attribute__ ((aligned(16))) char stack[4096];
 
 #define TAOS_VERSION "Taos v0.1\n"
 #define TAOS_TITLE_0 "  _________   ____  _____\n"

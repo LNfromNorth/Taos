@@ -32,6 +32,7 @@ SECTIONS
 
     .bss : ALIGN(0x1000) {
         _sbss = .;
+        *(.bss.stack)
         *(.bss .bss.*)
         _ebss = .;
     }
