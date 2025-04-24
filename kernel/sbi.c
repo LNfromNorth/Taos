@@ -26,6 +26,10 @@ struct sbiret sbi_ecall(uint64_t eid, uint64_t fid,
     return ret;
 }
 
+struct sbiret sbi_set_timer(uint64_t stime_value) {
+    return sbi_ecall(SBI_EXT_TIME, SBI_EXT_TIME_SET_TIMER, stime_value, 0, 0, 0, 0, 0);
+}
+
 struct sbiret sbi_debug_console_write_byte(uint8_t byte) {
     return sbi_ecall(SBI_EXT_0_1_CONSOLE_PUTCHAR, 0, byte, 0, 0, 0, 0, 0);
 }

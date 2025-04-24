@@ -3,6 +3,16 @@
 
 #include "stdint.h"
 
+// sstatus
+#define SSTATUS_SIE   (1L << 1)
+#define SSTATUS_SPIE  (1L << 5)
+#define SSTATUS_SPP   (1L << 8)
+
+// sie
+#define SIE_STIE    (1L << 4)
+
+
+
 #define csr_read(csr)                   \
   ({                                    \
     uint64_t __v;                       \

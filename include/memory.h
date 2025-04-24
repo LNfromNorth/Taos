@@ -83,6 +83,7 @@ typedef uint64_t pte_t;
 #define PXMASK          0x1FF // 9 bits
 #define PXSHIFT(level)  (PGSHIFT + (9 * (level)))
 #define PX(level, va)   ((((uint64_t) (va)) >> PXSHIFT(level)) & PXMASK)
+
 // max va
 #define MAXVA           (1L << (9 + 9 + 9 + 12 - 1))
 

@@ -1,3 +1,4 @@
+#include "handler.h"
 #include "memory.h"
 #include "printk.h"
 #include "panic.h"
@@ -28,7 +29,15 @@ int main() {
 
     init();
 
-    panic("Kernel Init Panic!");
+    int i = 0;
+    while(1) {
+        if((++i) % 100000000 == 0) {
+            printk("kernel is running!\n");
+            i = 0;
+        }
+    }
+
+    // panic("Kernel Init Panic!");
     // shutdown
     sbi_system_reset(0, 0);
 
@@ -43,5 +52,7 @@ int init() {
     page_init();
     page_on();
     proc_init();
+    trap_init();
+    trap_on();
     return 0;    
 }

@@ -7,6 +7,7 @@
         "defs.h": "c",
         "memory.h": "c",
         "proc.h": "c",
-        "riscv.h": "c"
+        "riscv.h": "c",
+        "panic.h": "c"
     },
 }
