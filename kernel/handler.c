@@ -21,7 +21,7 @@ void utrap_handler() {
 }
 
 void ktrap_handler() {
-    printk("[DEBUG] Into a ktrap handler");
+    printk("[DEBUG] Into a ktrap handler\n");
     clock_set_next_event();
 }
 

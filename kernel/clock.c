@@ -13,8 +13,6 @@ uint64_t get_cycles() {
 }
 
 void clock_set_next_event() {
-    printk("[DEBUG] set new clock event\n");
     uint64_t next = get_cycles() + TIMECLOCK;
-    printk("[DEBUG] next time is %x\n", next);
     sbi_set_timer(next); 
 }

@@ -9,7 +9,7 @@
 #define SSTATUS_SPP   (1L << 8)
 
 // sie
-#define SIE_STIE    (1L << 4)
+#define SIE_STIE    (1L << 5)
 
 
 
