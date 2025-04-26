@@ -21,8 +21,12 @@ void utrap_handler() {
 }
 
 void ktrap_handler() {
-    printk("[DEBUG] Into a ktrap handler\n");
-    clock_set_next_event();
+    uint64_t scause = csr_read(scause);
+    uint64_t sepc = csr_read(sepc);
+    if(scause == 0x8000000000000005) {  // timer interrupt
+        printk("[DEBUG] Into a ktrap handler\n");
+        clock_set_next_event();
+    }
 }
 
 void time_intr() {

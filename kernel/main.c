@@ -29,11 +29,12 @@ int main() {
 
     init();
 
-    panic("Kernel Init Panic!");
     // shutdown
-    sbi_system_reset(0, 0);
 
     while(1);
+
+    // can't reach here
+    sbi_system_reset(0, 0);
     // memory init
     // trap init
     // fs init
