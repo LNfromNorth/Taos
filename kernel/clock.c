@@ -1,7 +1,7 @@
-#include "stdint.h"
 #include "printk.h"
 #include "riscv.h"
 #include "sbi.h"
+#include "stdint.h"
 
 // test time 1s
 uint64_t TIMECLOCK = 10000000;
@@ -14,5 +14,5 @@ uint64_t get_cycles() {
 
 void clock_set_next_event() {
     uint64_t next = get_cycles() + TIMECLOCK;
-    sbi_set_timer(next); 
+    sbi_set_timer(next);
 }

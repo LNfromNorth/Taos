@@ -3,9 +3,4 @@
 
 #include "stdint.h"
 
-// memory
-void memory_init();
-void* kalloc();
-void kfree(uint64_t addr);
-
 #endif

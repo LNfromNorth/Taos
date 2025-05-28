@@ -1,0 +1,7 @@
+CompileFlags:
+  Add:
+    - "-Wall"
+    - "-Iinclude"
+    - "-Iinclude/fs"
+    - "-Iinclude/lib"
+    - "-Iinclude/sbi"
