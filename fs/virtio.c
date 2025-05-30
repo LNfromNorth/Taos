@@ -29,9 +29,9 @@ void virtio_blk_feature_init() {
 void virtio_blk_queue_init() {
     virtio_blk_ring.num = VIRTIO_QUEUE_SIZE;
 
-    uint64_t size_of_descs = VIRTIO_QUEUE_SIZE * sizeof(struct virtio_desc);
-    uint64_t size_of_avail = sizeof(struct virtio_avail);
-    uint64_t size_of_used = sizeof(struct virtio_used);
+    // uint64_t size_of_descs = VIRTIO_QUEUE_SIZE * sizeof(struct virtio_desc);
+    // uint64_t size_of_avail = sizeof(struct virtio_avail);
+    // uint64_t size_of_used = sizeof(struct virtio_used);
 
     // uint64_t pages = (uint64_t)kalloc(3);
     // TODO use kalloc to get pages
@@ -65,10 +65,11 @@ void virtio_blk_queue_init() {
 }
 
 void virtio_blk_config_init() {
-    volatile struct virtio_blk_config *config =
-        (struct virtio_blk_config *)(&virtio_blk_regs->Config);
-    uint64_t capacity =
-        ((uint64_t)config->capacity_hi << 32) | config->capacity_lo;
+    // volatile struct virtio_blk_config *config =
+    // (struct virtio_blk_config *)(&virtio_blk_regs->Config);
+    // uint64_t capacity =
+    // ((uint64_t)config->capacity_hi << 32) | config->capacity_lo;
+    return;
 }
 
 char virtio_blk_status;

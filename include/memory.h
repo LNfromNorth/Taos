@@ -36,10 +36,10 @@ typedef uint64_t pte_t;
 #define UART0_IRQ 10
 
 // virtio mmio interface
-#define VIRTIO0 0x10001000
-#define VIRTIO0_IRQ 1
+#define VIRTIO 0x10001000
+#define VIRTIO_IRQ 1
 
-#define VIRTIO0_MMIO_SIZE 0x8000
+#define VIRTIO_MMIO_SIZE 0x8000
 
 // qemu puts platform-level interrupt controller (PLIC) here.
 #define PLIC 0x0c000000L

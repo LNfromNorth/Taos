@@ -68,7 +68,7 @@ void page_init() {
     ret += page_map_make(kpagetable, UART0, UART0, PAGE_SIZE, PTE_R | PTE_W);
 
     // VIRTIO
-    ret += page_map_make(kpagetable, VIRTIO0, VIRTIO0, VIRTIO0_MMIO_SIZE,
+    ret += page_map_make(kpagetable, VIRTIO, VIRTIO, VIRTIO_MMIO_SIZE,
                          PTE_R | PTE_W);
 
     // PLIC
