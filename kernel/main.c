@@ -1,9 +1,11 @@
 #include "handler.h"
+#include "mbr.h"
 #include "memory.h"
-#include "printk.h"
 #include "panic.h"
+#include "printk.h"
 #include "proc.h"
 #include "sbi.h"
+#include "virtio.h"
 
 // __attribute__ ((aligned(16))) char stack[4096];
 
@@ -13,8 +15,8 @@
 #define TAOS_TITLE_2 "  / / / /| |/ / / /\\__ \\ \n"
 #define TAOS_TITLE_3 " / / / ___ / /_/ /___/ / \n"
 #define TAOS_TITLE_4 "/_/ /_/  |_\\____//____/  \n"
-                         
-// void sbi_message(); 
+
+// void sbi_message();
 int init();
 
 int main() {
@@ -31,7 +33,8 @@ int main() {
 
     // shutdown
 
-    while(1);
+    while (1)
+        ;
 
     // can't reach here
     sbi_system_reset(0, 0);
@@ -45,7 +48,9 @@ int init() {
     page_init();
     page_on();
     proc_init();
-    trap_init();
-    trap_on();
-    return 0;    
+    virtio_dev_init();
+    // mbr_init();
+    // trap_init();
+    // trap_on();
+    return 0;
 }

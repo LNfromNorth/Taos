@@ -8,6 +8,7 @@ SCRIPTS	:=./scripts
 
 # includes
 INCLUDE	:=-I ./include 
+INCLUDE +=-I ./include/fs
 INCLUDE +=-I ./include/sbi
 INCLUDE +=-I ./include/lib
 
@@ -39,17 +40,19 @@ LDFLAGS := -nostdlib -static -T $(KERNEL)/link.ld
 GDB_SCRIPT := $(SCRIPTS)/debug.gdb
 
 # Kernel source file
+FS_C_SRCS = $(wildcard fs/*.c)
 LIB_C_SRCS = $(wildcard lib/*.c)
 KERNEL_C_SRCS = $(wildcard kernel/*.c)
 KERNEL_AS_SRCS = $(wildcard kernel/*.S)
 
 # kernel target file
+FS_C_OBJS = $(patsubst fs/%.c, build/fs/%.o, $(FS_C_SRCS))
 LIB_C_OBJS = $(patsubst lib/%.c, build/lib/%.o, $(LIB_C_SRCS))
 KERNEL_C_OBJS = $(patsubst kernel/%.c, build/kernel/%.o, $(KERNEL_C_SRCS))
 KERNEL_AS_OBJS = $(patsubst kernel/%.S, build/kernel/%.o, $(KERNEL_AS_SRCS))
 
 # combine all objs
-OBJS = $(LIB_C_OBJS) $(KERNEL_C_OBJS) $(KERNEL_AS_OBJS)
+OBJS = $(FS_C_OBJS) $(LIB_C_OBJS) $(KERNEL_C_OBJS) $(KERNEL_AS_OBJS) 
 
 TARGET_ELF = build/kernel.elf
 TARGET_BIN = build/kernel.bin
@@ -85,8 +88,14 @@ $(TARGET_ASM): $(TARGET_ELF)
 build_dir:
 # @echo "CREATE build DIR"
 	@mkdir -p build
-	@mkdir -p build/kernel
+	@mkdir -p build/fs
 	@mkdir -p build/lib
+	@mkdir -p build/kernel
+
+# rule to compile .c
+build/fs/%.o: fs/%.c
+	@echo "CC $@"
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 # rule to compile .c
 build/lib/%.o: lib/%.c

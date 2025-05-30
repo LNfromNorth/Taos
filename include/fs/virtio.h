@@ -45,7 +45,7 @@
 #define VIRTIO_START (0x10001000)
 #define VIRTIO_SIZE (0x1000)
 #define VIRTIO_COUNT (8)
-#define IOMAP_OFFSET (0xffffffc800000000)
+#define IOMAP_OFFSET (0x00000000)
 
 struct virtio_regs {
     uint32_t MagicValue;
