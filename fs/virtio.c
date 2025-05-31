@@ -1,6 +1,5 @@
 #include "fs/virtio.h"
 #include "memory.h"
-#include <stdint.h>
 
 #define virt_to_phys(va) ((uint64_t)(va) - PA2VA_OFFSET)
 
@@ -33,8 +32,7 @@ void virtio_blk_queue_init() {
     // uint64_t size_of_avail = sizeof(struct virtio_avail);
     // uint64_t size_of_used = sizeof(struct virtio_used);
 
-    // uint64_t pages = (uint64_t)kalloc(3);
-    // TODO use kalloc to get pages
+    // uint64_t pages = alloc_pages(3);
     virtio_blk_ring.desc = (struct virtio_desc *)kalloc();
     virtio_blk_ring.avail = (struct virtio_avail *)kalloc();
     virtio_blk_ring.used = (struct virtio_used *)kalloc();
@@ -73,13 +71,13 @@ void virtio_blk_config_init() {
 }
 
 char virtio_blk_status;
-struct virtio_blk_req virt_blk_req;
+struct virtio_blk_req virtio_blk_req;
 
 void virtio_blk_cmd(uint32_t type, uint32_t sector, void *buf) {
-    virt_blk_req.type = type;
-    virt_blk_req.sector = sector;
+    virtio_blk_req.type = type;
+    virtio_blk_req.sector = sector;
 
-    virtio_blk_ring.desc[0].addr = virt_to_phys((uint64_t)&virt_blk_req);
+    virtio_blk_ring.desc[0].addr = virt_to_phys((uint64_t)&virtio_blk_req);
     virtio_blk_ring.desc[0].len = sizeof(struct virtio_blk_req);
     virtio_blk_ring.desc[0].flags = VIRTQ_DESC_F_NEXT;
     virtio_blk_ring.desc[0].next = 1;
@@ -89,8 +87,9 @@ void virtio_blk_cmd(uint32_t type, uint32_t sector, void *buf) {
     if (type == VIRTIO_BLK_T_IN) {
         virtio_blk_ring.desc[1].flags = VIRTQ_DESC_F_WRITE | VIRTQ_DESC_F_NEXT;
     } else {
-        virtio_blk_ring.desc[1].next = 2;
+        virtio_blk_ring.desc[1].flags = VIRTQ_DESC_F_NEXT;
     }
+    virtio_blk_ring.desc[1].next = 2;
 
     virtio_blk_ring.desc[2].addr = virt_to_phys((uint64_t)&virtio_blk_status);
     virtio_blk_ring.desc[2].len = sizeof(virtio_blk_status);
@@ -149,7 +148,7 @@ void virtio_blk_init() {
         printk("[S] mbr boot signature not found!");
     }
 
-    printk("...virtio_blk_init done!\n");
+    printk("[INIT] virtio_blk_init done!\n");
 }
 
 int virtio_dev_test(uint64_t virtio_addr) {

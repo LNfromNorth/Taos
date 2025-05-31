@@ -6,6 +6,8 @@ OPENSBI_JUMP = opensbi/build/platform/generic/firmware/fw_jump.bin
 OPENSBI_PAYLOAD = opensbi/build/platform/generic/firmware/fw_payload.bin
 # bootloader u-boot
 UBOOT_BIN = u-boot/u-boot.bin
+# Disk location
+DISK_IMG = build/disk.img
 
 # kernel 
 KERNEL_ELF = build/kernel.elf
@@ -13,6 +15,10 @@ KERNEL_ELF = build/kernel.elf
 QFLAGS  = -M virt
 QFLAGS += -m 256M
 QFLAGS += -nographic
+QFLAGS += -global virtio-mmio.force-legacy=false
+QFLAGS += -drive file=$(DISK_IMG),if=none,format=raw,id=hd0
+QFLAGS += -device virtio-blk-device,drive=hd0
+QFLAGS += -d guest_errors
 # QFLAGS += -bios none
 # QFLAGS += -kernel build/kernel.elf
 

@@ -49,7 +49,7 @@ int init() {
     page_on();
     proc_init();
     virtio_dev_init();
-    // mbr_init();
+    mbr_init();
     // trap_init();
     // trap_on();
     return 0;
