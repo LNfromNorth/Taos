@@ -33,10 +33,10 @@ SECTIONS
     .bss : ALIGN(0x1000) {
         _sbss = .;
         *(.bss.stack)
-        *(.bss .bss.*)
+        *(.bss .bss.* .sbss .sbss.*)
         _ebss = .;
     }
 
     . = ALIGN(0x1000);
-    PROVIDE(_ekernel = .);
+    _ekernel = .;
 }
