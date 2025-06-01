@@ -37,5 +37,6 @@ SECTIONS
         _ebss = .;
     }
 
+    . = ALIGN(0x1000);
     PROVIDE(_ekernel = .);
 }
