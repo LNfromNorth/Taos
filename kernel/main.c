@@ -6,6 +6,7 @@
 #include "proc.h"
 #include "sbi.h"
 #include "virtio.h"
+#include <stdint.h>
 
 // __attribute__ ((aligned(16))) char stack[4096];
 

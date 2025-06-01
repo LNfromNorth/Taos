@@ -96,10 +96,27 @@ typedef uint64_t pte_t;
 
 #define PA2VA_OFFSET (0)
 
+#define PGROUNDUP(addr) ((addr + PAGE_SIZE - 1) & (~(PAGE_SIZE - 1)))
+#define PGROUNDDOWN(addr) (addr & (~(PAGE_SIZE - 1)))
+
 // memory
 void memory_init();
+
 void *kalloc();
-void kfree(uint64_t addr);
+void kfree(void *addr);
+
+struct buddy {
+    uint64_t size;
+    uint64_t *bitmap;
+};
+
+void buddy_init();
+uint64_t buddy_alloc(uint64_t);
+void buddy_free(uint64_t);
+
+void *alloc_pages(uint64_t);
+void *alloc_page();
+void free_pages(void *);
 
 // page
 void page_init();
