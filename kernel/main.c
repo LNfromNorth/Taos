@@ -10,6 +10,8 @@
 
 // __attribute__ ((aligned(16))) char stack[4096];
 
+extern void proc_test();
+
 #define TAOS_VERSION "Taos v0.1\n"
 #define TAOS_TITLE_0 "  _________   ____  _____\n"
 #define TAOS_TITLE_1 " /_  __/   | / __ \\/ ___/\n"
@@ -39,9 +41,6 @@ int main() {
 
     // can't reach here
     sbi_system_reset(0, 0);
-    // memory init
-    // trap init
-    // fs init
 }
 
 int init() {
@@ -49,9 +48,10 @@ int init() {
     page_init();
     page_on();
     proc_init();
-    virtio_dev_init();
-    mbr_init();
-    // trap_init();
-    // trap_on();
+    // virtio_dev_init();
+    // mbr_init();
+    trap_init();
+    trap_on();
+    proc_test();
     return 0;
 }

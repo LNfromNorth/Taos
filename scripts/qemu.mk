@@ -7,7 +7,7 @@ OPENSBI_PAYLOAD = opensbi/build/platform/generic/firmware/fw_payload.bin
 # bootloader u-boot
 UBOOT_BIN = u-boot/u-boot.bin
 # Disk location
-DISK_IMG = build/disk.img
+DISK_IMG = tools/disk.img
 
 # kernel 
 KERNEL_ELF = build/kernel.elf

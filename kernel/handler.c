@@ -1,6 +1,7 @@
 #include "clock.h"
 #include "printk.h"
 #include "riscv.h"
+#include "proc.h"
 
 void ktrapvec();
 
@@ -15,6 +16,7 @@ void trap_on() {
     csr_write(sie, (csr_read(sie) | SIE_STIE));
     csr_write(sstatus, (csr_read(sstatus) | SSTATUS_SIE));
     timer_intr();
+    // clock_set_next_event();
     printk("[INIT] finish trap on\n");
 }
 
@@ -26,10 +28,12 @@ void ktrap_handler() {
     if (scause == 0x8000000000000005) { // timer interrupt
         timer_intr();
         printk("[DEBUG] Into a ktrap handler\n");
+        schedule();
     }
 }
 
 void timer_intr() {
+    // schedule();
     // now set default function to set next event
     clock_set_next_event();
 }

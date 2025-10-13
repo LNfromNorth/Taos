@@ -75,11 +75,11 @@ struct proc {
     int pid;
 
     enum proc_state state;
-    void* chan;
-    int killed;
-    int xstate; 
+    // void* chan;
+    // int killed;
+    // int xstate; 
 
-    struct proc *parent;
+    // struct proc *parent;
 
     uint64_t kstack;
     uint64_t mem_size;
@@ -94,5 +94,6 @@ struct proc {
 
 void proc_init();
 int proc_stack_map(pagetable_t kpagetable);
+void schedule();
 
 #endif
